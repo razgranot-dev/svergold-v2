@@ -85,7 +85,8 @@
   const STAGES = stations.length; // 6
   let curIndex = -1;
   const isDesktop = window.matchMedia("(min-width: 768px)").matches;
-  const scrubEnabled = isDesktop && !reduced;   // mobile / reduced-motion: single still frame
+  const scrubEnabled = !reduced;                // desktop + mobile both scrub; only reduced-motion opts out
+  const FRAME_STEP = isDesktop ? 1 : 2;         // mobile loads every 2nd frame → ~half the bytes & bitmap memory
 
   // route dots
   for (let i = 0; i < STAGES; i++) {
@@ -128,13 +129,23 @@
     if (canvas.width !== img.naturalWidth) { canvas.width = img.naturalWidth; canvas.height = img.naturalHeight; }
     ctx2d.drawImage(img, 0, 0, canvas.width, canvas.height);
   }
+  // snap any frame index to the nearest one we actually loaded (mobile loads a stepped subset)
+  function snapFrame(i) {
+    let j = Math.round(i / FRAME_STEP) * FRAME_STEP;
+    if (j > SEQ_N - 1) j = SEQ_N - 1;
+    if (!frames[j]) j -= j % FRAME_STEP;       // last index (e.g. 59 @ step 2) → nearest loaded (58)
+    return j;
+  }
   function preloadSequence() {
+    const list = [];
+    for (let i = 0; i < SEQ_N; i += FRAME_STEP) list.push(i);
+    const total = list.length;
     let done = 0;
-    for (let i = 0; i < SEQ_N; i++) {
+    list.forEach((i) => {
       const im = new Image();
       im.decoding = "async";
       im.onload = im.onerror = () => {
-        if (++done === SEQ_N) {
+        if (++done === total) {
           seqReady = true;
           if (stageEl) stageEl.classList.add("seq-ready");
           paintFrame(lastFrame < 0 ? 0 : lastFrame);
@@ -142,7 +153,7 @@
       };
       im.src = "assets/journey-seq/f_" + pad(i) + ".jpg";
       frames[i] = im;
-    }
+    });
   }
   if (scrubEnabled && canvas) {
     // lazy-load the ~2MB sequence only as the journey nears the viewport
@@ -155,7 +166,7 @@
       preloadSequence();
     }
   } else if (stageEl) {
-    stageEl.classList.add("seq-static");   // mobile / reduced-motion → single still frame
+    stageEl.classList.add("seq-static");   // reduced-motion → single still frame
   }
 
   // one persistent rAF: glide the progress, paint the frame, sync the UI.
@@ -168,7 +179,8 @@
     if (smooth < 0.0002) smooth = 0; else if (smooth > 0.9998) smooth = 1;
 
     if (scrubEnabled && seqReady) {
-      const fi = Math.min(SEQ_N - 1, Math.max(0, Math.round(smooth * (SEQ_N - 1))));
+      const raw = Math.min(SEQ_N - 1, Math.max(0, Math.round(smooth * (SEQ_N - 1))));
+      const fi = snapFrame(raw);
       if (fi !== lastFrame) { paintFrame(fi); lastFrame = fi; }
     }
 
