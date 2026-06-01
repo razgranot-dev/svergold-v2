@@ -215,13 +215,8 @@ html[lang="he"] .stat .label, html[lang="ru"] .stat .label { letter-spacing: 0.0
 /* numbering removed — rely on title + image + gold glyph icon */
 .sector .idx { display: none; }
 .sector > div { position: relative; z-index: 1; }
-.sector .glyph { width: 34px; height: 34px; border: 1px solid var(--border-strong); border-radius: 999px; display:grid; place-items:center; transition: border-color 0.45s var(--ease), background 0.45s var(--ease); }
-.sector:hover .glyph { border-color: var(--gold); background: var(--ship-fill); }
-.sector .glyph i { width: 12px; height: 12px; background: var(--gold-grad); display: block; }
-.sector .g-square i { border-radius: 2px; }
-.sector .g-circle i { border-radius: 999px; }
-.sector .g-diamond i { transform: rotate(45deg); }
-.sector .g-bar i { width: 14px; height: 4px; box-shadow: 0 5px 0 0 var(--gold); }
+/* decorative shape-in-circle glyph removed — cleaner photo plates, title carries the tile */
+.sector .glyph { display: none; }
 .sector h3 { font-size: clamp(19px, 1.7vw, 23px); margin-bottom: 8px; letter-spacing: -0.01em; }
 .sector:nth-child(1) h3 { font-size: clamp(26px, 2.8vw, 38px); }
 .sector p { color: var(--text-soft); font-size: 14.5px; font-weight: 300; max-width: 42ch; }
@@ -247,9 +242,6 @@ html[lang="he"] .sector p, html[lang="ru"] .sector p { font-weight: 400; }
 .sector.has-img .idx { opacity: 0.14; color: var(--text); text-shadow: 0 1px 12px var(--surface); }
 [data-theme="dark"] .sector.has-img .idx { opacity: 0.22; }
 .sector.has-img:hover .idx { color: var(--gold); opacity: 0.34; }
-.sector.has-img .glyph { border-color: var(--border);
-  background: color-mix(in srgb, var(--surface) 60%, transparent);
-  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
 @media (prefers-reduced-motion: reduce){ .sector.has-img:hover .sector-bg { transform: none; } }
 
 /* ---------------- Why us ---------------- */
@@ -356,7 +348,7 @@ html[lang="he"] .station .cargo-note, html[lang="ru"] .station .cargo-note { let
 .services { background: var(--bg-alt); border-block: 1px solid var(--border); }
 .svc-list { display: grid; grid-template-columns: repeat(12, 1fr); gap: 12px; }
 .svc {
-  grid-column: span 6; display: grid; grid-template-columns: auto 1fr auto; gap: 18px; align-items: center;
+  grid-column: span 6; display: grid; grid-template-columns: 1fr; align-items: center;
   padding: clamp(20px, 2.3vw, 28px); min-height: 116px;
   border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface);
   position: relative; overflow: hidden; will-change: transform;
@@ -367,20 +359,11 @@ html[lang="he"] .station .cargo-note, html[lang="ru"] .station .cargo-note { let
 .svc:nth-child(even) { grid-column: span 5; }
 /* impeccable: no side-stripe accent. The full border + lift carry the hover. */
 .svc:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(70,52,18,0.12); border-color: var(--gold); }
-/* number replaced by a refined gold node marker (no visible numbering) */
-.svc .no { width: 40px; height: 40px; border-radius: 999px; border: 1px solid var(--border-strong);
-  display: grid; place-items: center; font-size: 0; transition: border-color 0.35s var(--ease); flex: none; }
-.svc .no::before { content: ""; width: 11px; height: 11px; border-radius: 999px; background: var(--gold-grad);
-  transition: transform 0.4s var(--ease); }
-.svc:hover .no { border-color: var(--gold); }
-.svc:hover .no::before { transform: scale(1.32); }
+/* decorative node marker + arrow circle removed — cleaner cards, title + image carry it */
+.svc .no, .svc .go { display: none; }
 .svc .body h3 { font-size: clamp(18px, 1.8vw, 24px); transition: color 0.3s; }
 .svc .body p { color: var(--text-soft); font-size: 14px; line-height: 1.5; font-weight: 300; margin-top: 5px; max-width: 50ch; }
 html[lang="he"] .svc .body p, html[lang="ru"] .svc .body p { font-weight: 400; }
-.svc .go { width: 38px; height: 38px; border-radius: 999px; border: 1px solid var(--border-strong); display:grid; place-items:center; color: var(--text-soft); transition: color 0.35s, background 0.35s var(--ease), border-color 0.35s; }
-.svc:hover .go { background: var(--gold-grad); color:#1a1304; border-color: transparent; }
-.svc .go svg { width: 18px; height: 18px; }
-html[dir="rtl"] .svc .go svg { transform: scaleX(-1); }
 
 /* ---- generated photo plates inside service cards (Nano Banana / Gemini) ---- */
 .svc.has-img { min-height: 150px; background: var(--surface); }
@@ -393,11 +376,9 @@ html[dir="rtl"] .svc .go svg { transform: scaleX(-1); }
     color-mix(in srgb, var(--surface) 60%, transparent) 80%, color-mix(in srgb, var(--surface) 26%, transparent) 100%); }
 html[dir="rtl"] .svc-veil { background: linear-gradient(to left, var(--surface) 0%, var(--surface) 56%,
     color-mix(in srgb, var(--surface) 60%, transparent) 80%, color-mix(in srgb, var(--surface) 26%, transparent) 100%); }
-.svc.has-img > .no, .svc.has-img > .body, .svc.has-img > .go { position: relative; z-index: 1; }
+.svc.has-img > .body { position: relative; z-index: 1; }
 .svc.has-img::after { z-index: 2; }                 /* gold lashing bar stays on top */
 .svc.has-img .body p { max-width: 40ch; }
-.svc.has-img .go { background: color-mix(in srgb, var(--surface) 55%, transparent);
-  -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); }
 @media (prefers-reduced-motion: reduce){ .svc.has-img:hover .svc-bg { transform: none; } }
 
 /* ---------------- Locations — port markers + animated coast map (V1-adapted) ---------------- */
@@ -566,8 +547,7 @@ html[lang="he"] .footer-col h4, html[lang="ru"] .footer-col h4 { letter-spacing:
 @media (max-width: 560px) {
   .sectors-grid { grid-template-columns: 1fr; }
   .sector, .sector:nth-child(1) { grid-column: 1 / -1 !important; min-height: 150px; }
-  .svc { grid-template-columns: 44px 1fr; }
-  .svc .go { display: none; }
+  .svc { grid-template-columns: 1fr; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
   .hero-meta { gap: 22px; }
   .footer-top { flex-direction: column; }
