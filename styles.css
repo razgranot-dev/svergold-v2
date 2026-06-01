@@ -1,0 +1,188 @@
+/* ============================================================
+   SVERGOLD — Import & Marketing LTD
+   Design system: white/ivory/gold (light) · black/graphite/gold (dark)
+   Trilingual HE (RTL) / EN / RU · logical properties for RTL safety
+   ============================================================ */
+
+/* ---------- Fonts ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Golos+Text:wght@400;500;600;700&family=Frank+Ruhl+Libre:wght@400;500;700;800&family=Heebo:wght@300;400;500;600;700&display=swap');
+
+/* ---------- Tokens ---------- */
+:root {
+  /* Gold — sampled from the Svergold mark */
+  --gold-bright: #e7bd64;
+  --gold:        #c9962e;
+  --gold-deep:   #9a6e22;
+  --gold-soft:   #e8d5a8;
+  --gold-grad:   linear-gradient(135deg, #efc977 0%, #d2a23c 42%, #a4761f 100%);
+  --gold-line:   linear-gradient(90deg, transparent, var(--gold) 25%, var(--gold-bright) 50%, var(--gold) 75%, transparent);
+
+  /* Light palette (default) */
+  --bg:        #fbf9f4;   /* warm ivory */
+  --bg-alt:    #f4eee1;   /* champagne */
+  --surface:   #ffffff;
+  --surface-2: #fcfaf5;
+  --text:      #211d16;   /* warm graphite */
+  --text-soft: #6b6353;
+  --text-faint:#9a9080;
+  --border:    #e9e0cf;
+  --border-strong: #d8c9a6;
+  --shadow-sm: 0 2px 10px rgba(60, 45, 15, 0.05);
+  --shadow-md: 0 14px 40px rgba(70, 52, 18, 0.09);
+  --shadow-lg: 0 32px 80px rgba(70, 52, 18, 0.14);
+  --ship-fill: rgba(201, 150, 46, 0.06);
+  --hairline:  rgba(154, 110, 34, 0.18);
+
+  /* Type */
+  --font-display: 'Frank Ruhl Libre', Georgia, serif;
+  --font-body:    'Jost', system-ui, -apple-system, sans-serif;
+
+  /* Layout */
+  --maxw: 1280px;
+  --gutter: clamp(20px, 5vw, 72px);
+  --radius: 4px;
+  --radius-lg: 8px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-theme="dark"] {
+  --bg:        #0c0b09;   /* near-black */
+  --bg-alt:    #131210;   /* graphite */
+  --surface:   #16140f;
+  --surface-2: #1c1a14;
+  --text:      #f3ecdd;
+  --text-soft: #c5b9a4;   /* raised for WCAG-AA body contrast on dark surfaces */
+  --text-faint:#8c8470;
+  --border:    #2a261d;
+  --border-strong: #3c3527;
+  --shadow-sm: 0 2px 12px rgba(0,0,0,0.4);
+  --shadow-md: 0 18px 50px rgba(0,0,0,0.5);
+  --shadow-lg: 0 36px 90px rgba(0,0,0,0.6);
+  --ship-fill: rgba(231, 189, 100, 0.05);
+  --hairline:  rgba(231, 189, 100, 0.20);
+  --gold:      #d9a849;
+  --gold-bright:#f0cd7e;
+}
+
+/* Per-language type stacks */
+html[lang="ru"] {
+  --font-body: 'Golos Text', system-ui, sans-serif;
+}
+html[lang="he"] {
+  --font-display: 'Frank Ruhl Libre', Georgia, serif;
+  --font-body: 'Heebo', system-ui, sans-serif;
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+  transition: background 0.6s var(--ease), color 0.6s var(--ease);
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+ul { list-style: none; }
+
+/* ---------- Typography ---------- */
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; line-height: 1.18; letter-spacing: -0.01em; }
+.hero h1 { line-height: 1.2; }
+/* Israeli UI design system: never letter-space Hebrew; give Hebrew headings a touch more line height */
+html[lang="he"] h1, html[lang="he"] h2, html[lang="he"] h3, html[lang="he"] h4 { letter-spacing: normal; line-height: 1.25; }
+html[lang="he"] h1, html[lang="he"] h2, html[lang="he"] h3, html[lang="he"] h4 { letter-spacing: 0; line-height: 1.18; }
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: clamp(11px, 1.1vw, 13px);
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+[data-theme="dark"] .eyebrow { color: var(--gold-bright); }
+html[lang="he"] .eyebrow { letter-spacing: 0.12em; }
+.eyebrow::before {
+  content: "";
+  width: 34px; height: 1px;
+  background: var(--gold);
+  display: inline-block;
+}
+
+.section-title { font-size: clamp(32px, 5vw, 60px); }
+.lede { font-size: clamp(17px, 1.5vw, 20px); color: var(--text-soft); line-height: 1.65; font-weight: 300; }
+html[lang="he"] .lede, html[lang="ru"] .lede { font-weight: 400; }
+
+/* impeccable: no gradient text. Solid gold, emphasis carried by the display weight. */
+.text-gold { color: var(--gold-deep); }
+[data-theme="dark"] .text-gold { color: var(--gold-bright); }
+
+/* ---------- Layout helpers ---------- */
+.container { max-width: var(--maxw); margin-inline: auto; padding-inline: var(--gutter); }
+.section { padding-block: clamp(30px, 3.8vw, 60px); position: relative; }
+section[id], main [id] { scroll-margin-top: 80px; }
+.section-head { max-width: 720px; margin-bottom: clamp(18px, 2.2vw, 32px); }
+.section-head .eyebrow { margin-bottom: 14px; }
+.section-head .lede { margin-top: 12px; }
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 15px 30px;
+  font-size: 14px; font-weight: 600; letter-spacing: 0.04em;
+  border-radius: var(--radius);
+  transition: transform 0.18s var(--ease), box-shadow 0.3s var(--ease), background 0.3s, color 0.3s, border-color 0.3s;
+  white-space: nowrap;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: scale(0.97); }   /* press feedback (emil): the UI confirms it heard the user */
+.btn-gold {
+  background: var(--gold-grad); color: #1a1304;
+  box-shadow: 0 8px 24px rgba(201,150,46,0.28);
+}
+.btn-gold:hover { box-shadow: 0 14px 34px rgba(201,150,46,0.4); }
+.btn-outline {
+  border: 1px solid var(--border-strong); color: var(--text);
+  background: transparent;
+}
+.btn-outline:hover { border-color: var(--gold); color: var(--gold-deep); }
+[data-theme="dark"] .btn-outline:hover { color: var(--gold-bright); }
+.btn-ghost { color: var(--text-soft); padding-inline: 8px; }
+.btn-ghost:hover { color: var(--gold-deep); }
+[data-theme="dark"] .btn-ghost:hover { color: var(--gold-bright); }
+.btn .arrow { transition: transform 0.4s var(--ease); }
+html[dir="ltr"] .btn:hover .arrow { transform: translateX(4px); }
+html[dir="rtl"] .btn .arrow { transform: scaleX(-1); }
+html[dir="rtl"] .btn:hover .arrow { transform: scaleX(-1) translateX(4px); }
+
+/* ---------- Reveal on scroll ---------- */
+/* Visible by default — only the `.js` class (added once JS runs) opts into the
+   hidden→reveal animation, so content can never be trapped invisible. */
+.reveal { opacity: 1; transform: none; }
+html.js .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
+html.js .reveal.in { opacity: 1; transform: none; }
+html.js .reveal.no-anim { transition: none; }
+html.js .reveal[data-delay="1"] { transition-delay: 0.08s; }
+html.js .reveal[data-delay="2"] { transition-delay: 0.16s; }
+html.js .reveal[data-delay="3"] { transition-delay: 0.24s; }
+html.js .reveal[data-delay="4"] { transition-delay: 0.32s; }
+@media (prefers-reduced-motion: reduce) {
+  html.js .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
+/* hairline separator */
+.rule { height: 1px; background: var(--gold-line); opacity: 0.5; border: 0; }
